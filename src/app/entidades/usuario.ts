@@ -4,9 +4,9 @@ id?: number;
 nombre: string;
 apellido: string;
 mail: string;
-fechaNacimiento: number;
+fechaNacimiento: Date;
 user: string;
-contraseña: number;
+password: string;
 tipoUsuario: number;
 
 

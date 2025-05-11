@@ -1,1 +1,44 @@
-<p>registro works!</p>
+<form #formRef="ngForm" class="p-4">
+
+  <div class="mb-3">
+    <label for="nombre" class="form-label">Nombre</label>
+    <input type="text" class="form-control" id="nombre" name="nombre" [(ngModel)]="usuario.nombre" required>
+  </div>
+
+  <div class="mb-3">
+    <label for="apellido" class="form-label">Apellido</label>
+    <input type="text" class="form-control" id="apellido" name="apellido" [(ngModel)]="usuario.apellido" required>
+  </div>
+
+  <div class="mb-3">
+    <label for="email" class="form-label">Correo electrónico</label>
+    <input type="email" class="form-control" id="email" name="email" [(ngModel)]="usuario.mail" required>
+  </div>
+
+  <div class="mb-3">
+    <label for="fechaNacimiento" class="form-label">Fecha de nacimiento</label>
+    <input type="date" class="form-control" id="fechaNacimiento" name="fechaNacimiento" [(ngModel)]="usuario.fechaNacimiento" required>
+  </div>
+
+  <div class="mb-3">
+    <label for="user" class="form-label">Usuario</label>
+    <input type="text" class="form-control" id="user" name="user" [(ngModel)]="usuario.user" required>
+  </div>
+
+  <div class="mb-3">
+    <label for="password" class="form-label">Contraseña</label>
+    <input type="password" class="form-control" id="password" name="password" [(ngModel)]="usuario.password" required>
+  </div>
+
+  <div class="mb-3">
+    <label for="tipoUsuario" class="form-label">Tipo de usuario</label>
+    <select class="form-select" id="tipoUsuario" name="tipoUsuario" [(ngModel)]="usuario.tipoUsuario" required>
+      <option value="">Seleccione un tipo</option>
+      <option value="admin">Administrador</option>
+      <option value="cliente">Cliente</option>
+      <option value="invitado">Invitado</option>
+    </select>
+  </div>
+
+  <button type="button" class="btn btn-primary" (click)="guardar()">Guardar</button>
+</form>
