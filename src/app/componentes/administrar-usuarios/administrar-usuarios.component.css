@@ -1,15 +1,32 @@
 .custom-table {
-  background-color: #fce4ec; /* rosita claro */
-  color: #880e4f;            /* rosa oscuro */
-  border-radius: 10px;
-  overflow: hidden;
+  background-color: #fff0f5; /* fondo rosado suave */
+  color: #880e4f; /* texto rosa oscuro */
+  border: 1px solid #f48fb1;
+  border-radius: 8px;
+}
+
+.custom-table th {
+  background-color: #f8bbd0;
+  color: #880e4f;
+  font-weight: bold;
+  text-align: center;
+}
+
+.custom-table td {
+  background-color: #fce4ec;
+  color: #880e4f;
+  text-align: center;
 }
 
 .custom-table th,
 .custom-table td {
-  color: #880e4f; /* aplica también a las celdas */
+  padding: 12px;
+  border: 1px solid #f48fb1;
 }
 
-.custom-table thead {
-  background-color: #f8bbd0; /* un poco más oscuro para el encabezado */
+.table-container {
+  padding: 20px;
+  background-color: #fce4ec;
+  border-radius: 12px;
+  box-shadow: 0 0 10px rgba(240, 98, 146, 0.2);
 }

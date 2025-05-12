@@ -1,0 +1,49 @@
+<section class="vh-100 gradient-custom">
+  <div class="container py-5 h-100">
+    <div class="row justify-content-center align-items-center h-100">
+      <div class="col-12 col-lg-9 col-xl-7">
+        <div class="card shadow-2-strong" style="border-radius: 15px;">
+          <div class="card-body p-4 p-md-5">
+            <h3 class="mb-4 pb-2 pb-md-0 mb-md-5 text-center">Editar Usuario</h3>
+            
+            <form>
+              <div class="form-group mb-3">
+                <label for="nombre">Nombre</label>
+                <input type="text" id="nombre" class="form-control" [(ngModel)]="usuario.nombre" name="nombre" required>
+              </div>
+
+              <div class="form-group mb-3">
+                <label for="apellido">Apellido</label>
+                <input type="text" id="apellido" class="form-control" [(ngModel)]="usuario.apellido" name="apellido" required>
+              </div>
+
+              <div class="form-group mb-3">
+                <label for="mail">Correo electrónico</label>
+                <input type="email" id="mail" class="form-control" [(ngModel)]="usuario.mail" name="mail" required>
+              </div>
+
+              <div class="form-group mb-3">
+                <label for="fechaNacimiento">Fecha de nacimiento</label>
+                <input type="date" id="fechaNacimiento" class="form-control" [(ngModel)]="usuario.fechaNacimiento" name="fechaNacimiento" required>
+              </div>
+
+              <div class="form-group mb-4">
+                <label for="tipoUsuario">Tipo de usuario</label>
+                <select id="tipoUsuario" class="form-select" [(ngModel)]="usuario.tipoUsuario" name="tipoUsuario" required>
+                  <option value="0" disabled>Seleccione un tipo</option>
+                  <option value="1">Administrador</option>
+                  <option value="2">Cliente</option>
+                </select>
+              </div>
+
+              <div class="text-center">
+                <button type="button" class="btn btn-success" (click)="guardarCambios()">Guardar Cambios</button>
+              </div>
+            </form>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

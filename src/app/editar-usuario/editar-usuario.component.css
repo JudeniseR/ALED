@@ -1,0 +1,41 @@
+.gradient-custom {
+  background: linear-gradient(to right, #fce4ec, #f8bbd0); /* fondo rosita */
+}
+
+.card {
+  background-color: #fff0f5; /* rosado suave */
+  border: 2px solid #f48fb1; /* borde rosa oscuro */
+  color: #880e4f; /* texto rosa oscuro */
+}
+
+h3 {
+  color: #ad1457; /* título en rosa oscuro */
+}
+
+label {
+  color: #ad1457; /* etiquetas en rosa oscuro */
+}
+
+.form-control,
+.form-select {
+  border: 1px solid #f48fb1;
+  background-color: #fff0f5;
+  color: #880e4f;
+}
+
+.form-control:focus,
+.form-select:focus {
+  border-color: #f06292;
+  box-shadow: 0 0 0 0.2rem rgba(240, 98, 146, 0.25);
+}
+
+.btn-success {
+  background-color: #f06292;
+  border-color: #f06292;
+  color: white;
+}
+
+.btn-success:hover {
+  background-color: #ec407a;
+  border-color: #ec407a;
+}
