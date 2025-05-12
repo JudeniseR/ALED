@@ -1,0 +1,15 @@
+.custom-table {
+  background-color: #fce4ec; /* rosita claro */
+  color: #880e4f;            /* rosa oscuro */
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.custom-table th,
+.custom-table td {
+  color: #880e4f; /* aplica también a las celdas */
+}
+
+.custom-table thead {
+  background-color: #f8bbd0; /* un poco más oscuro para el encabezado */
+}
