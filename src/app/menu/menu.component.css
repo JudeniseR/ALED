@@ -1,0 +1,19 @@
+.custom-navbar {
+  background-color: #ffc0cb; /* Rosa claro */
+}
+
+.custom-link {
+  color: #c2185b !important; /* Rosa oscuro */
+  font-weight: bold;
+  margin: 0 10px;
+}
+
+.custom-link:hover {
+  text-decoration: underline;
+  color: #ad1457 !important; /* Un poco más oscuro al pasar el mouse */
+}
+
+.navbar-nav {
+  flex-direction: row;
+  gap: 1rem;
+}

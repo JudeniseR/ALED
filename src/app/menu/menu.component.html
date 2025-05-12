@@ -1,24 +1,18 @@
-<nav class="navbar navbar-expand-lg bg-body-tertiary">
-  <div class="container-fluid">
-    <a class="navbar-brand" href="#">Mi App</a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-      aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-
-    <div class="collapse navbar-collapse" id="navbarNav">
-      <ul class="navbar-nav ms-auto">
+<nav class="navbar navbar-expand-lg custom-navbar">
+  <div class="container justify-content-center">
+    <div class="collapse navbar-collapse d-flex justify-content-center" id="navbarNav">
+      <ul class="navbar-nav text-center">
         <li class="nav-item">
-          <a class="nav-link" routerLink="/login" routerLinkActive="active">Login</a>
+          <a class="nav-link custom-link" routerLink="/login" routerLinkActive="active">Login</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" routerLink="/principal" routerLinkActive="active">Principal</a>
+          <a class="nav-link custom-link" [routerLink]="'/principal'">Principal</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" routerLink="/registro" routerLinkActive="active">Registro</a>
+          <a class="nav-link custom-link" [routerLink]="'/registro'" >Registro</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" routerLink="/admin-usuarios" routerLinkActive="active">Administrar Usuarios</a>
+          <a class="nav-link custom-link" [routerLink]="'/administrar-usuarios'">Administrar Usuarios</a>
         </li>
       </ul>
     </div>

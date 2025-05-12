@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { Usuario } from '../../entidades/usuario';
 
 
@@ -12,11 +12,15 @@ import { Usuario } from '../../entidades/usuario';
 })
 export class RegistroComponent {
 public usuario: Usuario = {nombre: '', apellido: '', mail: '', fechaNacimiento: new Date(), user:'', password: '', tipoUsuario:0};
+ 
+  constructor(public router:Router) {
+    
+  }
 
 guardar() {
   // Convertir los datos a JSON y guardarlos en localStorage
   localStorage.setItem('usuario', JSON.stringify(this.usuario));
   console.log('Datos guardados en localStorage:', this.usuario);
-
+  this.router.navigateByUrl('/principal');
 }
 }
