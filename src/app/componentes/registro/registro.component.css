@@ -1,17 +1,17 @@
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
 .gradient-custom {
+  min-height: 100vh;
   background: linear-gradient(to right, #f8bbd0, #f48fb1);
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-.card-registration {
-  background-color: #fff;
-}
-
-.btn-primary {
-  background-color: #c2185b;
-  border-color: #c2185b;
-}
-
-.btn-primary:hover {
-  background-color: #ad1457;
-  border-color: #ad1457;
+.container {
+  width: 100%;
 }

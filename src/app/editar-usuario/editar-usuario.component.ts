@@ -1,18 +1,20 @@
 import { Component } from '@angular/core';
-import { UsuarioServiceService } from '../servicios/usuario-service.service';
-import { Usuario } from '../entidades/usuario';
-import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
+import { Router, RouterModule } from '@angular/router';
+import { Usuario } from '../entidades/usuario';
+import { UsuarioService } from '../servicios/usuario.service';
 
 @Component({
   selector: 'app-editar-usuario',
-  imports: [FormsModule],
+  //standalone: true,
+  imports: [FormsModule, CommonModule],
   templateUrl: './editar-usuario.component.html',
-  styleUrl: './editar-usuario.component.css'
+  styleUrls: ['./editar-usuario.component.css']
 })
 export class EditarUsuarioComponent {
- usuario: Usuario =
- {
+
+  usuario: Usuario = {
     nombre: '',
     apellido: '',
     mail: '',
@@ -22,22 +24,21 @@ export class EditarUsuarioComponent {
     tipoUsuario: 0
   };
 
-  constructor(private usuarioService: UsuarioServiceService, private router: Router) {
-    // Copia del usuario para edición
-    this.usuario = { ...usuarioService.usuarioParaEditar! };
+  constructor(private usuarioService: UsuarioService, private router: Router) {
+    // if (this.usuarioService.usuarioParaEditar) {
+    //   this.usuario = { ...this.usuarioService.usuarioParaEditar };
+    // } else {
+    //   alert('No hay usuario para editar');
+    //   this.router.navigate(['/administrar-usuarios']);
+    // }
   }
 
   guardarCambios() {
-    // Buscar y reemplazar en la lista
     const index = this.usuarioService.listaUsuario.findIndex(u => u.user === this.usuario.user);
     if (index !== -1) {
       this.usuarioService.listaUsuario[index] = this.usuario;
+      localStorage.setItem('usuarios', JSON.stringify(this.usuarioService.listaUsuario));
+      this.router.navigate(['/administrar-usuarios']);
     }
-
-    // Guardar en localStorage (opcional)
-    localStorage.setItem('usuarios', JSON.stringify(this.usuarioService.listaUsuario));
-
-    this.router.navigate(['/administrar-usuarios']);
   }
-
 }
