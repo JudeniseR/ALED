@@ -1,36 +1,27 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Productos } from '../../entidades/productos';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
 import { ProductosServiceService } from '../../servicios/productos.service.service';
 import { FiltroProductoPipe } from '../../pipe/filtro-producto.pipe';
+import { Router, RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-gestionar-productos',
-  imports: [ReactiveFormsModule,CommonModule,RouterModule,FormsModule,FiltroProductoPipe],
+  imports: [ReactiveFormsModule,CommonModule,FormsModule,RouterModule,FiltroProductoPipe],
   templateUrl: './gestionar-productos.component.html',
   styleUrl: './gestionar-productos.component.css'
 })
-export class GestionarProductosComponent {
- form!: FormGroup;
+export class GestionarProductosComponent implements OnInit {
   productos: Productos[] = [];
-  editMode: boolean = false;
-  editId!: number;
   filtroTexto = '';
 
-  constructor(private fb: FormBuilder, private productoService: ProductosServiceService) {}
+  constructor(
+    private productoService: ProductosServiceService,
+    private router: Router
+) {}
 
   ngOnInit(): void {
-    this.form = this.fb.group({
-      id: [null],
-      nombre: ['', Validators.required],
-      descripcion: [''],
-      precioArs: [0, [Validators.required, Validators.min(0)]],
-      categoria: ['', Validators.required],
-      imagen: ['', Validators.required]
-    });
-
     this.cargarProductos();
   }
 
@@ -40,26 +31,11 @@ export class GestionarProductosComponent {
     });
   }
 
-  submit(): void {
-    const producto: Productos = this.form.value;
-
-    if (this.editMode) {
-      this.productoService.actualizarProducto(producto).subscribe(() => {
-        this.cargarProductos();
-        this.resetForm();
-      });
-    } else {
-      this.productoService.crearProducto(producto).subscribe(() => {
-        this.cargarProductos();
-        this.resetForm();
-      });
-    }
-  }
-
   editar(producto: Productos): void {
-    this.form.patchValue(producto);
-    this.editMode = true;
-  }
+  localStorage.setItem('productoEditar', JSON.stringify(producto));
+  this.router.navigate(['/editar-producto']);
+}
+
 
   eliminar(producto: Productos): void {
     if (confirm('¿Estás seguro de eliminar este producto?')) {
@@ -67,11 +43,6 @@ export class GestionarProductosComponent {
         this.cargarProductos();
       });
     }
-  }
-
-  resetForm(): void {
-    this.editMode = false;
-    this.form.reset({ nombre: '', descripcion: '', precioArs: 0, categoria: '', imagen: '' });
   }
 }
 

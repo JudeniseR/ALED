@@ -1,13 +1,9 @@
 .bg-light-pink {
-  background-color: #fff0f5;
+  background-color: #ffe6f0;
 }
 
 .text-pink {
   color: #cc0066;
-}
-
-.border-pink {
-  border: 1px solid #ff99cc;
 }
 
 .btn-pink {
@@ -20,6 +16,6 @@
   background-color: #e05590;
 }
 
-.table-pink {
-  background-color: #ff66a3;
+.border-pink {
+  border: 1px solid #ff99cc;
 }

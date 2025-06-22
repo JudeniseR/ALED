@@ -1,0 +1,16 @@
+h3 {
+  color: #d63384;
+}
+
+table th,
+table td {
+  vertical-align: middle;
+}
+
+button {
+  font-weight: bold;
+}
+
+.container {
+  background-color: #fff5fa;
+}

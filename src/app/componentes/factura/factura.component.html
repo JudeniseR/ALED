@@ -1,0 +1,30 @@
+<div class="container p-4 bg-light border rounded shadow">
+  <h3 class="text-center mb-4 text-primary">Factura</h3>
+
+  <table class="table table-hover">
+    <thead class="table-secondary">
+      <tr>
+        <th>Producto</th>
+        <th>Cantidad</th>
+        <th>Precio Unitario (ARS)</th>
+        <th>Total (ARS)</th>
+        <th>Total (USD)</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let prod of productos">
+        <td>{{ prod.nombre }}</td>
+        <td>{{ prod.cantidad }}</td>
+        <td>{{ prod.precioArs | currency:'ARS' }}</td>
+        <td>{{ prod.cantidad * prod.precioArs | currency:'ARS' }}</td>
+        <td>{{ (prod.cantidad * prod.precioArs / tipoCambio) | currency:'USD' }}</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="text-end mt-4">
+    <h5>Total ARS: {{ totalArs | currency:'ARS' }}</h5>
+    <h5>Total USD: {{ totalUsd | currency:'USD' }}</h5>
+    <button class="btn btn-success mt-3" (click)="confirmar()">Confirmar Compra</button>
+  </div>
+</div>

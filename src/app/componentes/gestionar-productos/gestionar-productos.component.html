@@ -1,24 +1,31 @@
-<div class="container py-4">
-  <h2>Productos</h2>
+<div class="container mt-4 p-4 rounded border shadow bg-light-pink">
+  <h2 class="text-center text-pink mb-4">Gestión de Productos</h2>
 
   <div class="mb-3">
-    <label>Buscar:</label>
-    <input type="text" class="form-control" [(ngModel)]="filtroTexto" placeholder="Nombre o categoría">
+    <label class="form-label text-pink">Buscar:</label>
+    <input type="text" class="form-control border-pink" [(ngModel)]="filtroTexto" placeholder="Nombre o categoría">
   </div>
 
-  <form [formGroup]="form" (ngSubmit)="submit()">
-    <!-- campos: nombre, descripcion, precioArs, categoria, imagen -->
-    <button type="submit">{{editMode?'Actualizar':'Crear'}}</button>
-    <button type="button" (click)="resetForm()">Limpiar</button>
-  </form>
-
-  <table class="table">
-    <thead><tr><th>Nombre</th><th>Categoría</th><th>Precio ARS</th><th>Imagen</th><th>Acciones</th></tr></thead>
+  <table class="table table-hover align-middle">
+    <thead class="table-pink text-white">
+      <tr>
+        <th>Nombre</th>
+        <th>Categoría</th>
+        <th>Precio ARS</th>
+        <th>Imagen</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
     <tbody>
       <tr *ngFor="let p of productos | filtroProducto:filtroTexto">
-        <td>{{p.nombre}}</td><td>{{p.categoria}}</td><td>{{p.precioArs | currency:'ARS'}}</td>
-        <td><img [src]="p.imagen" width="80"></td>
-        <td><button (click)="editar(p)">Editar</button><button (click)="eliminar(p)">Eliminar</button></td>
+        <td>{{ p.nombre }}</td>
+        <td>{{ p.categoria }}</td>
+        <td>{{ p.precioArs | currency:'ARS' }}</td>
+        <td><img [src]="p.imagen" width="80" class="rounded shadow-sm"></td>
+        <td>
+          <button class="btn btn-sm btn-outline-primary me-2" (click)="editar(p)">Editar</button>
+          <button class="btn btn-sm btn-outline-danger" (click)="eliminar(p)">Eliminar</button>
+        </td>
       </tr>
     </tbody>
   </table>

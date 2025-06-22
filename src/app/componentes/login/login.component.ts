@@ -29,7 +29,11 @@ export class LoginComponent {
         if (usuario) {
           alert('Login exitoso!');
           localStorage.setItem('usuarioLogueado', JSON.stringify(usuario));
-          this.router.navigate(['/principal']);
+
+          this.router.navigate(['/principal']).then(() => {
+          window.location.reload();
+          });
+
         } else {
           alert('Usuario o contraseña incorrectos');
         }

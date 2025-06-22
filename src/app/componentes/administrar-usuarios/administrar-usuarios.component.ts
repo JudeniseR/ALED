@@ -3,6 +3,7 @@ import { Usuario } from '../../entidades/usuario';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { UsuarioService } from '../../servicios/usuario.service';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-administrar-usuarios',

@@ -1,0 +1,74 @@
+<div class="container p-4 bg-light border rounded shadow">
+  <h3 class="text-pink mb-4">Seleccionar Productos</h3>
+
+  <div class="mb-3">
+    <label class="form-label text-pink">Buscar:</label>
+    <input
+      type="text"
+      class="form-control border-pink"
+      [(ngModel)]="filtroTexto"
+      placeholder="Nombre o categoría"
+    />
+  </div>
+
+  <ul class="list-group mb-4" style="max-height: 250px; overflow-y: auto;">
+    <li
+      *ngFor="let producto of productos | filtroProducto:filtroTexto"
+      class="list-group-item d-flex justify-content-between align-items-center"
+    >
+      <div>
+        {{ producto.nombre }} - {{ producto.precioArs | currency:'ARS' }}
+      </div>
+      <div class="d-flex align-items-center gap-2">
+        <input
+          type="number"
+          #cantidad
+          min="1"
+          placeholder="Cantidad"
+          class="form-control form-control-sm"
+          style="width: 80px"
+        />
+        <button
+          class="btn btn-pink btn-sm"
+          (click)="agregarProducto(producto, cantidad)"
+        >
+          Agregar
+        </button>
+      </div>
+    </li>
+  </ul>
+
+  <h4 class="text-pink">Productos Seleccionados</h4>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Nombre</th>
+        <th>Cantidad</th>
+        <th>Precio Unitario (ARS)</th>
+        <th>Total (ARS)</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let p of productosSeleccionados; let i = index">
+        <td>{{ p.producto.nombre }}</td>
+        <td>{{ p.cantidad }}</td>
+        <td>{{ p.producto.precioArs | currency:'ARS' }}</td>
+        <td>{{ p.cantidad * p.producto.precioArs | currency:'ARS' }}</td>
+        <td>
+          <button
+            class="btn btn-danger btn-sm"
+            (click)="eliminarSeleccionado(i)"
+          >
+            Eliminar
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <app-factura
+  [productos]="productosParaFactura"
+  (compraConfirmada)="onCompraConfirmada()"
+></app-factura>
+</div>

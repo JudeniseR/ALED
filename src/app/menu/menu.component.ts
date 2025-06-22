@@ -10,22 +10,25 @@ import { RouterModule } from '@angular/router';
 })
 export class MenuComponent {
    tipoUsuario: number = 0; // 0 = no logueado
+  public usuarioGuardado = localStorage.getItem('usuarioLogueado');
 
-  ngOnInit(): void {
-    const usuarioGuardado = localStorage.getItem('usuarioLogueado');
-    if (usuarioGuardado) {
+
+  constructor(){
+    console.log(this.usuarioGuardado);
+    if (this.usuarioGuardado) {
       try {
-        const usuario = JSON.parse(usuarioGuardado);
-        this.tipoUsuario = usuario.tipoUsuario || 0;
+        const usuario = JSON.parse(this.usuarioGuardado);
+        this.tipoUsuario = Number(usuario.tipoUsuario) || 0;
       } catch (error) {
         console.error('Error al leer usuario desde localStorage:', error);
         this.tipoUsuario = 0;
       }
     }
-  }
+}
+  
 
   logout(): void {
-    localStorage.removeItem('usuario');
+    localStorage.removeItem('usuarioLogueado');
     this.tipoUsuario = 0;
   }
 }
