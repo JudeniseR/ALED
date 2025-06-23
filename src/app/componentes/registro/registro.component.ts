@@ -54,6 +54,7 @@ export class RegistroComponent {
     } else {
       this.errorMessage = 'Por favor complete todos los campos correctamente.';
     }
+    this.registroForm.markAllAsTouched();
   }
   }
 

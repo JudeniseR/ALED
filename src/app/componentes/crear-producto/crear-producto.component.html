@@ -25,16 +25,22 @@
       </div>
 
       <div class="mb-3">
-        <label class="form-label text-danger fw-semibold">Imagen (URL):</label>
-        <input formControlName="imagen" class="form-control border-danger-subtle" />
+        <label class="form-label text-danger fw-semibold">Imagen:</label>
+        <input type="file" class="form-control border-danger-subtle" (change)="onFileSelected($event)" accept="image/*" />
+        <div *ngIf="form.get('imagen')?.value" class="text-center mt-2">
+          <img [src]="form.get('imagen')?.value" class="img-thumbnail" width="120" />
+        </div>
       </div>
 
-      <div class="text-center">
+      <div class="text-center mt-3">
         <button class="btn btn-outline-danger fw-bold px-4" type="submit">
           Crear
         </button>
       </div>
+
+      <div *ngIf="errorMessage" class="text-danger text-center mt-3">
+        {{ errorMessage }}
+      </div>
     </form>
   </div>
 </div>
-

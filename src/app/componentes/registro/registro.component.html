@@ -51,13 +51,15 @@
                 </div>
               </div>
 
-              <div class="mb-3">
-                <label class="form-label">Contraseña</label>
-                <input type="password" class="form-control" formControlName="password" placeholder="Mínimo 6 caracteres" />
-                <div class="text-danger" *ngIf="registroForm.get('password')?.invalid && registroForm.get('password')?.touched">
-                  La contraseña debe tener al menos 6 caracteres.
-                </div>
-              </div>
+              <!-- Contraseña -->
+<div class="mb-3">
+  <label class="form-label">Contraseña</label>
+  <input type="password" class="form-control" formControlName="password" placeholder="Mínimo 6 caracteres" />
+  <div class="text-danger" *ngIf="registroForm.get('password')?.touched && registroForm.get('password')?.errors">
+    <div *ngIf="registroForm.get('password')?.errors?.['required']">La contraseña es obligatoria.</div>
+    <div *ngIf="registroForm.get('password')?.errors?.['minlength']">Debe tener al menos 6 caracteres.</div>
+  </div>
+</div>
 
               <div class="mb-4">
                 <label class="form-label">Tipo de Usuario</label>
@@ -93,5 +95,6 @@
     </div>
   </div>
 </section>
+
 
 
