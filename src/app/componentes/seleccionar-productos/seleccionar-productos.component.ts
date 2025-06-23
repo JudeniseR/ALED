@@ -2,13 +2,14 @@ import { Component, OnInit } from '@angular/core';
 import { Productos } from '../../entidades/productos';
 import { ProductosServiceService } from '../../servicios/productos.service.service';
 import { CommonModule } from '@angular/common';
-import { FacturaComponent } from '../factura/factura.component';
+import { FacturaComponent, ProductoFactura } from '../factura/factura.component';
 import { FiltroProductoPipe } from '../../pipe/filtro-producto.pipe';
 import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-seleccionar-productos',
-  imports: [CommonModule,FacturaComponent,FiltroProductoPipe,FormsModule],
+  standalone: true,
+  imports: [CommonModule, FacturaComponent, FiltroProductoPipe, FormsModule],
   templateUrl: './seleccionar-productos.component.html',
   styleUrls: ['./seleccionar-productos.component.css']
 })
@@ -21,7 +22,6 @@ export class SeleccionarProductosComponent implements OnInit {
   constructor(private productoService: ProductosServiceService) {}
 
   ngOnInit(): void {
-    // Pasamos payload vacío según tu método POST
     this.productoService.obtenerProductos([]).subscribe((data) => {
       this.productos = data;
     });
@@ -44,44 +44,42 @@ export class SeleccionarProductosComponent implements OnInit {
     this.productosSeleccionados.splice(index, 1);
   }
 
-onCompraConfirmada() {
-  const cotizacionUSD = 1162;
-  const fechaHoy = new Date().toISOString().split('T')[0];
+  onCompraConfirmada(event: {
+    tipoCambio: number;
+    productos: ProductoFactura[];
+    totalArs: number;
+    totalUsd: number;
+  }) {
 
-  let cantidadTotal = 0;
-  let totalArs = 0;
+    if (!event){
+      console.error("No se recibio evento de factura");
+      return;
+    }
+    const fechaHoy = new Date().toISOString().split('T')[0];
 
-  this.productosSeleccionados.forEach((seleccion) => {
-    cantidadTotal += seleccion.cantidad;
-    totalArs += seleccion.cantidad * seleccion.producto.precioArs;
-  });
+    const factura = {
+      cantidad: event.productos.reduce((sum, p) => sum + p.cantidad, 0),
+      total_ars: event.totalArs,
+      total_usd: event.totalUsd,
+      cotizacion_usd: event.tipoCambio,
+      fecha_cotizacion: fechaHoy
+    };
 
-  const totalUsd = +(totalArs / cotizacionUSD).toFixed(2);
+    console.log("Factura enviada:", factura);
+    this.productoService.crearFactura(factura).subscribe({
+      next: () => console.log('Factura enviada correctamente'),
+      error: err => console.error('Error al enviar factura', err)
+    });
 
-  const factura = {
-    cantidad: cantidadTotal,
-    precio_unitario: 0, // opcional, o podrías poner un promedio si necesitás
-    total_ars: totalArs,
-    total_usd: totalUsd,
-    cotizacion_usd: cotizacionUSD,
-    fecha_cotizacion: fechaHoy
-  };
+    alert('Compra confirmada!');
+    this.productosSeleccionados = [];
+  }
 
-  console.log("Factura enviada:", factura);
-  this.productoService.crearFactura(factura).subscribe({
-    next: () => console.log('Factura enviada correctamente'),
-    error: err => console.error('Error al enviar factura', err)
-  });
-
-  alert('Compra confirmada!');
-  this.productosSeleccionados = [];
-}
-
-  get productosParaFactura() {
-  return this.productosSeleccionados.map(p => ({
-    nombre: p.producto.nombre,
-    cantidad: p.cantidad,
-    precioArs: p.producto.precioArs
-  }));
-}
+  get productosParaFactura(): ProductoFactura[] {
+    return this.productosSeleccionados.map(p => ({
+      nombre: p.producto.nombre,
+      cantidad: p.cantidad,
+      precioArs: p.producto.precioArs
+    }));
+  }
 }

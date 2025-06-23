@@ -17,7 +17,12 @@ export interface ProductoFactura {
 })
 export class FacturaComponent implements OnInit, OnChanges {
   @Input() productos: ProductoFactura[] = [];
-  @Output() compraConfirmada = new EventEmitter<void>();
+  @Output() compraConfirmada = new EventEmitter<{
+  tipoCambio: number;
+  productos: ProductoFactura[];
+  totalArs: number;
+  totalUsd: number;
+}>();
 
   tipoCambio: number = 1;
   tipoCambioFecha: string = '';
@@ -30,7 +35,7 @@ export class FacturaComponent implements OnInit, OnChanges {
     this.tipoCambioService.obtenerTipoCambio().subscribe(valor => {
       this.tipoCambio = valor;
       this.tipoCambioFecha = this.tipoCambioService.fechaCotizacionUsada;
-      this.calcularTotales(); // se calcula por si ya hay productos al inicio
+      this.calcularTotales(); 
     });
   }
 
@@ -45,7 +50,12 @@ export class FacturaComponent implements OnInit, OnChanges {
     this.totalUsd = this.totalArs / this.tipoCambio;
   }
 
-  confirmar(): void {
-    this.compraConfirmada.emit();
-  }
+ confirmar(): void {
+  this.compraConfirmada.emit({
+    tipoCambio: this.tipoCambio,
+    productos: this.productos,
+    totalArs: this.totalArs,
+    totalUsd: this.totalUsd
+  });
+}
 }

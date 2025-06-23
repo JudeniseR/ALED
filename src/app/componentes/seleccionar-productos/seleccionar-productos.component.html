@@ -1,93 +1,78 @@
-<div class="container bg-danger-subtle rounded shadow-sm p-4 mt-4" style="max-width: 800px">
+<div class="container mt-4 p-4 rounded shadow-sm bg-light border border-danger-subtle">
 
+  <h3 class="text-center text-danger mb-4 fw-semibold">Seleccionar Productos</h3>
 
-  <h3 class="text-center text-rose mb-4"> Selección de Productos</h3>
-
-  <!-- Buscador -->
+  <!-- 🔍 Filtro -->
   <div class="mb-3">
-    <label class="form-label text-rose fw-bold">Buscar</label>
     <input
       type="text"
-      class="form-control border-rose"
       [(ngModel)]="filtroTexto"
-      placeholder="Nombre o categoría"
+      class="form-control"
+      placeholder="🔍 Buscar producto..."
     />
   </div>
 
-  <!-- Lista de productos -->
-  <ul class="list-group mb-4" style="max-height: 250px; overflow-y: auto;">
-    <li
-      *ngFor="let producto of productos | filtroProducto:filtroTexto"
-      class="list-group-item d-flex justify-content-between align-items-center"
-    >
-      <div>
-        <strong>{{ producto.nombre }}</strong> —
-        <span class="text-muted">{{ producto.precioArs | currency:'ARS' }}</span>
-      </div>
-      <div class="d-flex align-items-center gap-2">
-        <input
-          type="number"
-          #cantidad
-          min="1"
-          placeholder="Cant."
-          class="form-control form-control-sm border-rose"
-          style="width: 70px"
-        />
-        <button
-          class="btn btn-sm btn-rose"
-          (click)="agregarProducto(producto, cantidad)"
-        >
-          +
-        </button>
-      </div>
-    </li>
-  </ul>
-
-  <!-- Productos seleccionados -->
-  <h5 class="text-rose">🧾 Seleccionados</h5>
-
-  <div *ngIf="productosSeleccionados.length === 0" class="text-muted fst-italic mb-3">
-    No hay productos seleccionados.
+  <!--  Tabla de productos -->
+  <div class="table-responsive mb-4">
+    <table class="table table-bordered table-hover align-middle text-center bg-white">
+      <thead class="table-danger-subtle text-danger">
+        <tr>
+          <th>Nombre</th>
+          <th>Precio (ARS)</th>
+          <th style="width: 120px;">Cantidad</th>
+          <th>Agregar</th>
+        </tr>
+      </thead>
+      <tbody class="text-dark">
+        <tr *ngFor="let prod of productos | filtroProducto:filtroTexto">
+          <td>{{ prod.nombre }}</td>
+          <td>{{ prod.precioArs | currency:'ARS' }}</td>
+          <td>
+            <input
+              type="number"
+              min="1"
+              class="form-control form-control-sm text-center"
+              #cantidadInput
+              placeholder="0"
+            />
+          </td>
+          <td>
+            <button
+              class="btn btn-outline-danger btn-sm fw-semibold"
+              (click)="agregarProducto(prod, cantidadInput)"
+            >
+              ➕ Agregar
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
   </div>
 
-  <table
-    *ngIf="productosSeleccionados.length > 0"
-    class="table table-sm table-hover text-center align-middle border"
-  >
-    <thead class="table-light">
-      <tr>
-        <th>Producto</th>
-        <th>Cant.</th>
-        <th>Precio</th>
-        <th>Total</th>
-        <th></th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let p of productosSeleccionados; let i = index">
-        <td>{{ p.producto.nombre }}</td>
-        <td>{{ p.cantidad }}</td>
-        <td>{{ p.producto.precioArs | currency:'ARS' }}</td>
-        <td>{{ p.cantidad * p.producto.precioArs | currency:'ARS' }}</td>
-        <td>
-          <button class="btn btn-sm btn-outline-danger" (click)="eliminarSeleccionado(i)">✕</button>
-        </td>
-      </tr>
-    </tbody>
-  </table>
+  <!--  Productos seleccionados -->
+  <div class="mb-4" *ngIf="productosSeleccionados.length > 0">
+    <h5 class="text-danger fw-semibold">🛒 Productos seleccionados</h5>
+    <ul class="list-group shadow-sm">
+      <li
+        class="list-group-item d-flex justify-content-between align-items-center"
+        *ngFor="let p of productosSeleccionados; let i = index"
+      >
+        {{ p.producto.nombre }} - Cantidad: {{ p.cantidad }}
+        <button
+          class="btn btn-sm btn-outline-danger"
+          (click)="eliminarSeleccionado(i)"
+        >
+           Quitar
+        </button>
+      </li>
+    </ul>
+  </div>
 
-  <!-- <div class="text-end mt-3">
-    <button
-      class="btn btn-rose px-4"
-      (click)="onCompraConfirmada()"
-    >
-       Confirmar Compra
-    </button>
-  </div> -->
-
-  <!-- Factura -->
+  
   <app-factura
+    *ngIf="productosSeleccionados.length > 0"
     [productos]="productosParaFactura"
-    (compraConfirmada)="onCompraConfirmada()"
-  ></app-factura>
+    (compraConfirmada)="onCompraConfirmada($event)"
+  >
+  </app-factura>
 </div>
