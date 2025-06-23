@@ -1,0 +1,22 @@
+.text-rose {
+  color: #d63384;
+}
+
+.bg-light-rose {
+  background-color: #f8d7e4 !important;
+}
+
+.border-rose {
+  border-color: #d63384 !important;
+}
+
+.btn-rose {
+  background-color: #f8d7e4;
+  color: #d63384;
+  border: 1px solid #d63384;
+}
+
+.btn-rose:hover {
+  background-color: #d63384;
+  color: white;
+}

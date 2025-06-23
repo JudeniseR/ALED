@@ -1,0 +1,19 @@
+.text-rose {
+  color: #d63384;
+}
+
+.bg-light-rose {
+  background-color: #f8d7e4;
+}
+
+.border-rose {
+  border: 2px solid #d63384 !important;
+}
+
+.producto-img img {
+  transition: transform 0.3s ease;
+}
+
+.producto-img img:hover {
+  transform: scale(1.05);
+}

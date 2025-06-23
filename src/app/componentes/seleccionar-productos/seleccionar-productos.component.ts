@@ -44,12 +44,38 @@ export class SeleccionarProductosComponent implements OnInit {
     this.productosSeleccionados.splice(index, 1);
   }
 
-  onCompraConfirmada() {
-    alert('Compra confirmada!');
+onCompraConfirmada() {
+  const cotizacionUSD = 1162;
+  const fechaHoy = new Date().toISOString().split('T')[0];
 
-    // Limpiamos selección para nueva compra
-    this.productosSeleccionados = [];
-  }
+  let cantidadTotal = 0;
+  let totalArs = 0;
+
+  this.productosSeleccionados.forEach((seleccion) => {
+    cantidadTotal += seleccion.cantidad;
+    totalArs += seleccion.cantidad * seleccion.producto.precioArs;
+  });
+
+  const totalUsd = +(totalArs / cotizacionUSD).toFixed(2);
+
+  const factura = {
+    cantidad: cantidadTotal,
+    precio_unitario: 0, // opcional, o podrías poner un promedio si necesitás
+    total_ars: totalArs,
+    total_usd: totalUsd,
+    cotizacion_usd: cotizacionUSD,
+    fecha_cotizacion: fechaHoy
+  };
+
+  console.log("Factura enviada:", factura);
+  this.productoService.crearFactura(factura).subscribe({
+    next: () => console.log('Factura enviada correctamente'),
+    error: err => console.error('Error al enviar factura', err)
+  });
+
+  alert('Compra confirmada!');
+  this.productosSeleccionados = [];
+}
 
   get productosParaFactura() {
   return this.productosSeleccionados.map(p => ({

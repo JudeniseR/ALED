@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, OnChanges, SimpleChanges } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TipoCambioService } from '../../servicios/tipo-cambio.service';
 
@@ -15,23 +15,29 @@ export interface ProductoFactura {
   templateUrl: './factura.component.html',
   styleUrls: ['./factura.component.css']
 })
-export class FacturaComponent implements OnInit {
+export class FacturaComponent implements OnInit, OnChanges {
   @Input() productos: ProductoFactura[] = [];
   @Output() compraConfirmada = new EventEmitter<void>();
 
   tipoCambio: number = 1;
+  tipoCambioFecha: string = '';
   totalArs: number = 0;
   totalUsd: number = 0;
 
   constructor(private tipoCambioService: TipoCambioService) {}
 
   ngOnInit(): void {
-    this.calcularTotales();
-
     this.tipoCambioService.obtenerTipoCambio().subscribe(valor => {
       this.tipoCambio = valor;
-      this.totalUsd = this.totalArs / this.tipoCambio;
+      this.tipoCambioFecha = this.tipoCambioService.fechaCotizacionUsada;
+      this.calcularTotales(); // se calcula por si ya hay productos al inicio
     });
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['productos'] && this.tipoCambio) {
+      this.calcularTotales();
+    }
   }
 
   calcularTotales(): void {

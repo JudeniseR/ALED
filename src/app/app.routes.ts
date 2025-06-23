@@ -10,6 +10,7 @@ import { GestionarProductosComponent } from './componentes/gestionar-productos/g
 import { CrearProductoComponent } from './componentes/crear-producto/crear-producto.component';
 import { EditarProductoComponent } from './componentes/editar-producto/editar-producto.component';
 import { FacturaComponent } from './componentes/factura/factura.component';
+import { SeleccionarProductosComponent } from './componentes/seleccionar-productos/seleccionar-productos.component';
 
 export const routes: Routes = [
     {path:'principal',component:PrincipalComponent},
@@ -21,6 +22,7 @@ export const routes: Routes = [
   { path: 'editar-producto',component: EditarProductoComponent},
   { path: 'crear-producto',component:CrearProductoComponent},
   { path: 'administrar-usuarios', component:AdministrarUsuariosComponent },
+   { path: 'seleccionar-productos', component: SeleccionarProductosComponent },
   { path: 'factura', component:FacturaComponent },
 
 { path:'', redirectTo: 'principal',pathMatch:'full' },//re direccionar a la pagina principal

@@ -1,35 +1,40 @@
-<div class="container mt-4 p-4 rounded border shadow bg-light-pink">
-  <h3 class="text-center text-pink mb-4">Crear Producto</h3>
+<div class="container d-flex justify-content-center mt-5">
+  <div class="bg-danger-subtle p-4 rounded shadow border border-danger-subtle" style="width: 100%; max-width: 500px;">
+    
+    <h3 class="text-center text-danger mb-4 fw-semibold">🛒 Crear Producto</h3>
 
-  <form [formGroup]="form" (ngSubmit)="submit()">
-    <div class="mb-3">
-      <label class="form-label text-pink">Nombre:</label>
-      <input formControlName="nombre" class="form-control border-pink">
-    </div>
+    <form [formGroup]="form" (ngSubmit)="submit()">
+      <div class="mb-3">
+        <label class="form-label text-danger fw-semibold">Nombre:</label>
+        <input formControlName="nombre" class="form-control border-danger-subtle" />
+      </div>
 
-    <div class="mb-3">
-      <label class="form-label text-pink">Descripción:</label>
-      <input formControlName="descripcion" class="form-control border-pink">
-    </div>
+      <div class="mb-3">
+        <label class="form-label text-danger fw-semibold">Descripción:</label>
+        <input formControlName="descripcion" class="form-control border-danger-subtle" />
+      </div>
 
-    <div class="mb-3">
-      <label class="form-label text-pink">Precio ARS:</label>
-      <input type="number" formControlName="precioArs" class="form-control border-pink">
-    </div>
+      <div class="mb-3">
+        <label class="form-label text-danger fw-semibold">Precio ARS:</label>
+        <input type="number" formControlName="precioArs" class="form-control border-danger-subtle" />
+      </div>
 
-    <div class="mb-3">
-      <label class="form-label text-pink">Categoría:</label>
-      <input formControlName="categoria" class="form-control border-pink">
-    </div>
+      <div class="mb-3">
+        <label class="form-label text-danger fw-semibold">Categoría:</label>
+        <input formControlName="categoria" class="form-control border-danger-subtle" />
+      </div>
 
-    <div class="mb-3">
-      <label class="form-label text-pink">Imagen (URL):</label>
-      <input formControlName="imagen" class="form-control border-pink">
-    </div>
+      <div class="mb-3">
+        <label class="form-label text-danger fw-semibold">Imagen (URL):</label>
+        <input formControlName="imagen" class="form-control border-danger-subtle" />
+      </div>
 
-    <div class="text-center">
-      <button class="btn btn-pink px-4" type="submit">Crear</button>
-    </div>
-  </form>
+      <div class="text-center">
+        <button class="btn btn-outline-danger fw-bold px-4" type="submit">
+          Crear
+        </button>
+      </div>
+    </form>
+  </div>
 </div>
 

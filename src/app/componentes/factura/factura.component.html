@@ -1,30 +1,46 @@
-<div class="container p-4 bg-light border rounded shadow">
-  <h3 class="text-center mb-4 text-primary">Factura</h3>
+<div class="container p-4 rounded shadow-sm bg-light border border-danger-subtle" style="max-width: 800px;">
 
-  <table class="table table-hover">
-    <thead class="table-secondary">
-      <tr>
-        <th>Producto</th>
-        <th>Cantidad</th>
-        <th>Precio Unitario (ARS)</th>
-        <th>Total (ARS)</th>
-        <th>Total (USD)</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let prod of productos">
-        <td>{{ prod.nombre }}</td>
-        <td>{{ prod.cantidad }}</td>
-        <td>{{ prod.precioArs | currency:'ARS' }}</td>
-        <td>{{ prod.cantidad * prod.precioArs | currency:'ARS' }}</td>
-        <td>{{ (prod.cantidad * prod.precioArs / tipoCambio) | currency:'USD' }}</td>
-      </tr>
-    </tbody>
-  </table>
+  <h4 class="text-center text-danger mb-4 fw-semibold"> Factura</h4>
 
-  <div class="text-end mt-4">
-    <h5>Total ARS: {{ totalArs | currency:'ARS' }}</h5>
-    <h5>Total USD: {{ totalUsd | currency:'USD' }}</h5>
-    <button class="btn btn-success mt-3" (click)="confirmar()">Confirmar Compra</button>
+  <!-- 💡 Tipo de cambio -->
+  <div *ngIf="tipoCambioFecha" class="alert alert-danger-subtle text-center small mb-4 border border-danger">
+    💡 Tipo de cambio aplicado del {{ tipoCambioFecha }}:
+    <strong class="text-danger">{{ tipoCambio | currency:'ARS' }}</strong>
+  </div>
+
+  <!-- 🧾 Tabla -->
+  <div class="table-responsive">
+    <table class="table table-sm table-bordered align-middle text-center bg-white">
+      <thead class="table-danger-subtle text-danger">
+        <tr>
+          <th>Producto</th>
+          <th>Cant.</th>
+          <th>Precio (ARS)</th>
+          <th>Total (ARS)</th>
+          <th>Total (USD)</th>
+        </tr>
+      </thead>
+      <tbody class="text-dark">
+        <tr *ngFor="let prod of productos">
+          <td>{{ prod.nombre }}</td>
+          <td>{{ prod.cantidad }}</td>
+          <td>{{ prod.precioArs | currency:'ARS' }}</td>
+          <td>{{ prod.cantidad * prod.precioArs | currency:'ARS' }}</td>
+          <td>{{ (prod.cantidad * prod.precioArs / tipoCambio) | currency:'USD' }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Totales y botón -->
+  <div class="text-end mt-3">
+    <h6 class="text-danger">Total ARS: <strong>{{ totalArs | currency:'ARS' }}</strong></h6>
+    <h6 class="text-danger">Total USD: <strong>{{ totalUsd | currency:'USD' }}</strong></h6>
+    <button
+      class="btn btn-outline-danger mt-3 fw-bold px-4"
+      (click)="confirmar()"
+    >
+       Confirmar Compra
+    </button>
   </div>
 </div>

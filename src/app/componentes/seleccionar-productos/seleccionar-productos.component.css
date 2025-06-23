@@ -1,0 +1,28 @@
+.text-rose {
+  color: #d63384; /* rosa Bootstrap */
+}
+
+.border-rose {
+  border-color: #d63384 !important;
+}
+
+.btn-rose {
+  background-color: #f8d7e4;
+  color: #d63384;
+  border: 1px solid #d63384;
+}
+
+.btn-rose:hover {
+  background-color: #d63384;
+  color: white;
+}
+
+.btn-outline-rose {
+  border-color: #d63384;
+  color: #d63384;
+}
+
+.btn-outline-rose:hover {
+  background-color: #d63384;
+  color: white;
+}

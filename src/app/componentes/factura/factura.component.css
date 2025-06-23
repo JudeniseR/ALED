@@ -1,16 +1,29 @@
-h3 {
+.text-rose {
   color: #d63384;
 }
-
-table th,
-table td {
-  vertical-align: middle;
+/* Fondo rosa más oscuro y elegante */
+.bg-rose-deep {
+  background-color: #c94e84; /* Rosa oscuro intenso */
+  color: white;
 }
 
-button {
-  font-weight: bold;
+.alert-rose-deep {
+  background-color: #b43e74;
+  color: white;
+  border: 1px solid #ffffff33;
 }
 
-.container {
-  background-color: #fff5fa;
+.table-rose {
+  background-color: #d63384;
+}
+
+.btn-rose {
+  background-color: #f8d7e4;
+  color: #d63384;
+  border: 1px solid #d63384;
+}
+
+.btn-rose:hover {
+  background-color: #d63384;
+  color: white;
 }

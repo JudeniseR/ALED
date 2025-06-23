@@ -1,32 +1,45 @@
-<div class="container mt-4 p-4 rounded border shadow bg-light-pink">
-  <h2 class="text-center text-pink mb-4">Gestión de Productos</h2>
+<div class="container d-flex justify-content-center mt-5">
+  <div class="bg-danger-subtle p-4 rounded shadow border border-danger-subtle" style="width: 100%; max-width: 900px;">
 
-  <div class="mb-3">
-    <label class="form-label text-pink">Buscar:</label>
-    <input type="text" class="form-control border-pink" [(ngModel)]="filtroTexto" placeholder="Nombre o categoría">
+    <h3 class="text-center text-danger mb-4 fw-semibold">🛠️ Gestión de Productos</h3>
+
+    <!-- Buscador -->
+    <div class="mb-4">
+      <label class="form-label text-danger fw-semibold">Buscar:</label>
+      <input
+        type="text"
+        class="form-control border-danger-subtle"
+        [(ngModel)]="filtroTexto"
+        placeholder="Nombre o categoría"
+      />
+    </div>
+
+    <!-- Tabla -->
+    <div class="table-responsive">
+      <table class="table table-sm table-hover align-middle text-center bg-white">
+        <thead class="table-danger-subtle text-danger">
+          <tr>
+            <th>Nombre</th>
+            <th>Categoría</th>
+            <th>Precio</th>
+            <th>Imagen</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody class="text-dark">
+          <tr *ngFor="let p of productos | filtroProducto:filtroTexto">
+            <td>{{ p.nombre }}</td>
+            <td>{{ p.categoria }}</td>
+            <td>{{ p.precioArs | currency:'ARS' }}</td>
+            <td><img [src]="p.imagen" class="rounded shadow-sm" width="80" /></td>
+            <td>
+              <button class="btn btn-sm btn-outline-primary me-2" (click)="editar(p)">Editar</button>
+              <button class="btn btn-sm btn-outline-danger" (click)="eliminar(p)">Eliminar</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    
   </div>
-
-  <table class="table table-hover align-middle">
-    <thead class="table-pink text-white">
-      <tr>
-        <th>Nombre</th>
-        <th>Categoría</th>
-        <th>Precio ARS</th>
-        <th>Imagen</th>
-        <th>Acciones</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let p of productos | filtroProducto:filtroTexto">
-        <td>{{ p.nombre }}</td>
-        <td>{{ p.categoria }}</td>
-        <td>{{ p.precioArs | currency:'ARS' }}</td>
-        <td><img [src]="p.imagen" width="80" class="rounded shadow-sm"></td>
-        <td>
-          <button class="btn btn-sm btn-outline-primary me-2" (click)="editar(p)">Editar</button>
-          <button class="btn btn-sm btn-outline-danger" (click)="eliminar(p)">Eliminar</button>
-        </td>
-      </tr>
-    </tbody>
-  </table>
 </div>

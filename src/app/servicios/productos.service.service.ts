@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Productos } from '../entidades/productos';
 import { Observable } from 'rxjs';
+import { Factura } from '../entidades/factura';
 
 @Injectable({
   providedIn: 'root'
@@ -27,6 +28,10 @@ export class ProductosServiceService {
 
     eliminarProducto(producto:Productos){
       return this.http.post(this.apiUrl+ "/eliminar_producto",producto);
+    }
+
+    crearFactura(factura:Factura){
+      return this.http.post(this.apiUrl+ "/crear_factura",factura);
     }
 
 }

@@ -5,26 +5,26 @@
 
         <!-- Navbar para no logueado -->
         <ng-container *ngIf="tipoUsuario === 0">
-          <li class="nav-item"><a class="nav-link custom-link" routerLink="/login">Login</a></li>
           <li class="nav-item"><a class="nav-link custom-link" routerLink="/principal">Principal</a></li>
+          <li class="nav-item"><a class="nav-link custom-link" routerLink="/login">Login</a></li>
           <li class="nav-item"><a class="nav-link custom-link" routerLink="/registro">Registro</a></li>
         </ng-container>
 
         <!-- Navbar para ADMIN (tipo 2) -->
         <ng-container *ngIf="tipoUsuario === 2">
           <li class="nav-item"><a class="nav-link custom-link" routerLink="/principal">Principal</a></li>
-          <li class="nav-item"><a class="nav-link custom-link" routerLink="/administrar-usuarios">Administrar Usuarios</a></li>
+          <!-- <li class="nav-item"><a class="nav-link custom-link" routerLink="/administrar-usuarios">Administrar Usuarios</a></li> -->
           <li class="nav-item"><a class="nav-link custom-link" routerLink="/crear-producto">Crear Producto</a></li>
           <li class="nav-item"><a class="nav-link custom-link" routerLink="/gestionar-productos">Gestionar Productos</a></li>
-          <li class="nav-item"><a class="nav-link custom-link" routerLink="/factura">Factura</a></li>
+          <li class="nav-item"><a class="nav-link custom-link" routerLink="/seleccionar-productos">Seleccionar productos </a></li>
           <li class="nav-item"><a class="nav-link custom-link" (click)="logout()" routerLink="/login">Cerrar sesión</a></li>
         </ng-container>
 
         <!-- Navbar para CLIENTE (tipo 1) -->
         <ng-container *ngIf="tipoUsuario === 1">
           <li class="nav-item"><a class="nav-link custom-link" routerLink="/principal">Principal</a></li>
+          <li class="nav-item"><a class="nav-link custom-link" routerLink="/seleccionar-productos">Seleccionar productos </a></li>
           <li class="nav-item"><a class="nav-link custom-link" (click)="logout()" routerLink="/login">Cerrar sesión</a></li>
-          <li class="nav-item"><a class="nav-link custom-link" routerLink="/factura">Factura</a></li>
         </ng-container>
 
       </ul>
