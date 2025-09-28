@@ -38,9 +38,9 @@ export class CrearProductoComponent {
       const reader = new FileReader();
       reader.onload = () => {
         const base64 = reader.result as string;
-        this.form.get('imagen')?.setValue(base64); // Guarda Base64 en el formulario
+        this.form.get('imagen')?.setValue(base64); 
       };
-      reader.readAsDataURL(file); // Convierte a Base64
+      reader.readAsDataURL(file); //  Base64
     }
   }
 

@@ -9,7 +9,7 @@ import { RouterModule } from '@angular/router';
   styleUrl: './menu.component.css'
 })
 export class MenuComponent {
-   tipoUsuario: number = 0; // 0 = no logueado
+   tipoUsuario: number = 0; // no logueado
   public usuarioGuardado = localStorage.getItem('usuarioLogueado');
 
 
