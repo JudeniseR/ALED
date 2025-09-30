@@ -1,4 +1,5 @@
-import { Injectable } from '@angular/core';
+// src/app/services/usuario.service.ts
+import { Injectable, inject, EnvironmentInjector, runInInjectionContext } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
 // AngularFire Firestore
@@ -16,8 +17,6 @@ export interface Usuario {
   password: string;
   tipoUsuario?: number;          // 1 = usuario, 2 = admin
 }
-
-
 
 // Lo que guardás en localStorage (según tu app)
 export interface UsuarioLogueado {
@@ -38,6 +37,8 @@ export class UsuarioService {
 
   // ==== Helpers de sesión (localStorage) ====
   private readonly LS_KEY = 'usuarioLogueado';
+
+  private env = inject(EnvironmentInjector); // 👈 agregado
 
   constructor(private http: HttpClient, private db: Firestore) {}
 
@@ -102,22 +103,27 @@ export class UsuarioService {
   private cacheNombrePorId: Record<string, string> = {};
   async getNombreConRol(id: string): Promise<string> {
     if (this.cacheNombrePorId[id]) return this.cacheNombrePorId[id];
-    const snap = await getDoc(doc(this.db, `usuarios/${id}`));
-    if (!snap.exists()) {
-      this.cacheNombrePorId[id] = id;
-      return id;
-    }
-    const d = snap.data() as any;
-    const rol = d?.rol || (Number(d?.tipoUsuario) === 2 ? 'admin' : 'usuario');
-    const nombre = [d?.nombre, d?.apellido].filter(Boolean).join(' ');
-    const display = nombre ? `${nombre} (${rol})` : `${id} (${rol})`;
-    this.cacheNombrePorId[id] = display;
-    return display;
+
+    return runInInjectionContext(this.env, async () => {  // 👈 envuelto
+      const snap = await getDoc(doc(this.db, `usuarios/${id}`));
+      if (!snap.exists()) {
+        this.cacheNombrePorId[id] = id;
+        return id;
+      }
+      const d = snap.data() as any;
+      const rol = d?.rol || (Number(d?.tipoUsuario) === 2 ? 'admin' : 'usuario');
+      const nombre = [d?.nombre, d?.apellido].filter(Boolean).join(' ');
+      const display = nombre ? `${nombre} (${rol})` : `${id} (${rol})`;
+      this.cacheNombrePorId[id] = display;
+      return display;
+    });
   }
 
   /** Log rápido para ver qué hay en /usuarios (útil debug). */
   async debugAdminsLog(): Promise<void> {
-    const all = await getDocs(collection(this.db, 'usuarios'));
-    console.log('[DEBUG usuarios]', all.docs.map(d => ({ id: d.id, ...d.data() })));
+    return runInInjectionContext(this.env, async () => {     // 👈 envuelto
+      const all = await getDocs(collection(this.db, 'usuarios'));
+      console.log('[DEBUG usuarios]', all.docs.map(d => ({ id: d.id, ...d.data() })));
+    });
   }
 }

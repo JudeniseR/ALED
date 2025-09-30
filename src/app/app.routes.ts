@@ -11,23 +11,24 @@ import { CrearProductoComponent } from './componentes/crear-producto/crear-produ
 import { EditarProductoComponent } from './componentes/editar-producto/editar-producto.component';
 import { FacturaComponent } from './componentes/factura/factura.component';
 import { SeleccionarProductosComponent } from './componentes/seleccionar-productos/seleccionar-productos.component';
+import { ReportesComponent } from './componentes/reportes/reportes.component';
+
 
 export const routes: Routes = [
-    {path:'principal',component:PrincipalComponent},
-    { path: 'login', component:LoginComponent},
-    { path: 'editar-usuario', component: EditarUsuarioComponent },
+  { path: 'principal', component: PrincipalComponent },
+  { path: 'login', component: LoginComponent },
+  { path: 'editar-usuario', component: EditarUsuarioComponent },
+  { path: 'registro', component: RegistroComponent },
+  { path: 'gestionar-productos', component: GestionarProductosComponent },
+  { path: 'editar-producto', component: EditarProductoComponent },
+  { path: 'crear-producto', component: CrearProductoComponent },
+  { path: 'administrar-usuarios', component: AdministrarUsuariosComponent },
+  { path: 'seleccionar-productos', component: SeleccionarProductosComponent },
+  { path: 'factura', component: FacturaComponent },
+
   
-  { path: 'registro', component:RegistroComponent},
-  { path: 'gestionar-productos',component:GestionarProductosComponent},
-  { path: 'editar-producto',component: EditarProductoComponent},
-  { path: 'crear-producto',component:CrearProductoComponent},
-  { path: 'administrar-usuarios', component:AdministrarUsuariosComponent },
-   { path: 'seleccionar-productos', component: SeleccionarProductosComponent },
-  { path: 'factura', component:FacturaComponent },
+  { path: 'reportes', component: ReportesComponent },
 
-{ path:'', redirectTo: 'principal',pathMatch:'full' },//re direccionar a la pagina principal
-{path: '**',component:ErrorComponent}
-
-
-
+  { path: '', redirectTo: 'principal', pathMatch: 'full' },
+  { path: '**', component: ErrorComponent },
 ];

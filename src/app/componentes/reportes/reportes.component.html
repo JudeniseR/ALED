@@ -1,0 +1,76 @@
+<div class="reportes container py-4">
+  <div class="d-flex align-items-center justify-content-between mb-3">
+    <h2 class="m-0 fw-bold">Reportes de ventas</h2>
+
+    <div class="btn-group">
+      <button class="btn btn-outline-primary" [class.active]="rango==='dia'" (click)="cambiarRango('dia')">Por día</button>
+      <button class="btn btn-outline-primary" [class.active]="rango==='semana'" (click)="cambiarRango('semana')">Por semana</button>
+      <button class="btn btn-outline-primary" [class.active]="rango==='mes'" (click)="cambiarRango('mes')">Por mes</button>
+    </div>
+  </div>
+
+  <div *ngIf="error()" class="alert alert-danger">{{ error() }}</div>
+
+  <div *ngIf="cargando()" class="placeholder-cards">
+    <div class="card placeholder-card"></div>
+    <div class="card placeholder-card"></div>
+    <div class="card placeholder-card"></div>
+  </div>
+
+  <div class="row g-4" *ngIf="!cargando()">
+    <!-- Ventas -->
+    <div class="col-12 col-xl-6">
+      <div class="card shadow-sm h-100">
+        <div class="card-header bg-white border-0">
+          <h5 class="card-title mb-0">Ventas</h5>
+        </div>
+        <div class="card-body">
+          <div class="chart-wrap">
+            <canvas baseChart
+              [type]="ventasType"
+              [data]="ventasChart"
+              [options]="chartOptions">
+            </canvas>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Dólar semanal -->
+    <div class="col-12 col-xl-6">
+      <div class="card shadow-sm h-100">
+        <div class="card-header bg-white border-0">
+          <h5 class="card-title mb-0">Evolución del dólar</h5>
+        </div>
+        <div class="card-body">
+          <div class="chart-wrap">
+            <canvas baseChart
+              [type]="dolarType"
+              [data]="dolarChart"
+              [options]="chartOptions">
+            </canvas>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Top productos -->
+    <div class="col-12">
+      <div class="card shadow-sm">
+        <div class="card-header bg-white border-0 d-flex align-items-center justify-content-between">
+          <h5 class="card-title mb-0">Productos más vendidos</h5>
+          <button class="btn btn-primary btn-sm" (click)="exportarCSV()">Exportar facturas CSV</button>
+        </div>
+        <div class="card-body">
+          <div class="chart-wrap">
+            <canvas baseChart
+              [type]="topType"
+              [data]="topChart"
+              [options]="chartOptions">
+            </canvas>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

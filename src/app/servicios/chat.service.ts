@@ -1,4 +1,5 @@
-import { Injectable, inject } from '@angular/core';
+// src/app/services/chat.service.ts
+import { Injectable, inject, EnvironmentInjector, runInInjectionContext } from '@angular/core';
 import {
   Firestore, doc, setDoc, getDoc, collection, addDoc,
   serverTimestamp, query, where, orderBy, limit, collectionData,
@@ -49,7 +50,8 @@ export interface MensajeFS {
 
 @Injectable({ providedIn: 'root' })
 export class ChatService {
-  private db = inject(Firestore);
+  private db  = inject(Firestore);
+  private env = inject(EnvironmentInjector); // 👈 agregado
 
   // ------- Perfiles de usuario en /usuarios --------
   async upsertUsuario(user: {
@@ -99,22 +101,26 @@ export class ChatService {
 
   // Stream de conversaciones donde participa el usuario
   listenConversacionesDe(idUsuario: string | number): Observable<(ConversacionFS & { id: string })[]> {
-    const uid = String(idUsuario);
-    const col = collection(this.db, 'conversaciones');
-    const q = query(
-      col,
-      where('participantesIds', 'array-contains', uid),
-      orderBy('actualizadoEn', 'desc'),
-      limit(50)
-    );
-    return collectionData(q, { idField: 'id' }) as any;
+    return runInInjectionContext(this.env, () => {            // 👈 envuelto
+      const uid = String(idUsuario);
+      const col = collection(this.db, 'conversaciones');
+      const q = query(
+        col,
+        where('participantesIds', 'array-contains', uid),
+        orderBy('actualizadoEn', 'desc'),
+        limit(50)
+      );
+      return collectionData(q, { idField: 'id' }) as any;
+    });
   }
 
   // Stream de mensajes (orden por fecha ascendente)
   listenMensajesDeConversacion(idConversacion: string): Observable<(MensajeFS & { id: string })[]> {
-    const col = collection(this.db, `conversaciones/${idConversacion}/mensajes`);
-    const q = query(col, orderBy('creadoEn', 'asc'));
-    return collectionData(q, { idField: 'id' }) as any;
+    return runInInjectionContext(this.env, () => {            // 👈 envuelto
+      const col = collection(this.db, `conversaciones/${idConversacion}/mensajes`);
+      const q = query(col, orderBy('creadoEn', 'asc'));
+      return collectionData(q, { idField: 'id' }) as any;
+    });
   }
 
   // Envío de mensaje + actualización de cabecera
@@ -133,11 +139,7 @@ export class ChatService {
 
   // ================== SOPORTE (inbox) ==================
 
-  /**
-   * Variante 1 (REUTILIZA si hay abierta):
-   * - Busca una conversación de soporte del mismo usuario con estado pendiente/en_curso.
-   * - Si no hay o la query falla por índices, crea una nueva.
-   */
+  /** Variante 1 (REUTILIZA si hay abierta) */
   async crearConversacionSoporte(usuarioId: string): Promise<string> {
     const col = collection(this.db, 'conversaciones');
 
@@ -170,10 +172,7 @@ export class ChatService {
     return ref.id;
   }
 
-  /**
-   * Variante 2 (SIEMPRE NUEVA):
-   * - No intenta reutilizar; siempre crea otra conversación de soporte.
-   */
+  /** Variante 2 (SIEMPRE NUEVA) */
   async crearConversacionSoporteNueva(usuarioId: string): Promise<string> {
     const col = collection(this.db, 'conversaciones');
     const data: ConversacionFS = {
@@ -191,38 +190,22 @@ export class ChatService {
     return ref.id;
   }
 
-  /**
-   * Admin: pendientes (sin asignar).
-   * Si te pide índice por el orderBy, podés quitarlo temporalmente.
-   */
+  /** Admin: pendientes (sin asignar). */
   listenPendientesParaAdmin(): Observable<(ConversacionFS & {id:string})[]> {
-    const col = collection(this.db, 'conversaciones');
-    const qBase = query(
-      col,
-      where('tipo', '==', 'soporte'),
-      where('estado', '==', 'pendiente'),
-      orderBy('actualizadoEn', 'desc'),
-      limit(50)
-    );
-    return collectionData(qBase, { idField: 'id' }) as any;
+    return runInInjectionContext(this.env, () => {            // 👈 envuelto
+      const col = collection(this.db, 'conversaciones');
+      const qBase = query(
+        col,
+        where('tipo', '==', 'soporte'),
+        where('estado', '==', 'pendiente'),
+        orderBy('actualizadoEn', 'desc'),
+        limit(50)
+      );
+      return collectionData(qBase, { idField: 'id' }) as any;
+    });
   }
 
-  /**
-   * Admin toma conversación: la asigna, cambia a 'en_curso' y se agrega a participantesIds.
-   */
-  async tomarConversacion(convId: string, adminId: string): Promise<void> {
-    const ref = doc(this.db, 'conversaciones', convId);
-    await updateDoc(ref, {
-      assignedAdminId: adminId,
-      estado: 'en_curso',
-      participantesIds: arrayUnion(adminId),
-      actualizadoEn: serverTimestamp(),
-    } as any);
-  }
-
-  /**
-   * (Opcional) Cerrar conversación.
-   */
+  /** (Opcional) Cerrar conversación. */
   async cerrarConversacion(convId: string): Promise<void> {
     const ref = doc(this.db, 'conversaciones', convId);
     await updateDoc(ref, {
@@ -230,4 +213,15 @@ export class ChatService {
       actualizadoEn: serverTimestamp(),
     } as any);
   }
+
+  // dentro de ChatService
+async tomarConversacion(convId: string, adminId: string): Promise<void> {
+  const ref = doc(this.db, 'conversaciones', convId);
+  await updateDoc(ref, {
+    assignedAdminId: adminId,
+    estado: 'en_curso',
+    participantesIds: arrayUnion(adminId),
+    actualizadoEn: serverTimestamp(),
+  } as any);
+}
 }
