@@ -16,13 +16,7 @@ export interface UsuarioFS {
   fotoURL?: string | null;
 }
 
-/**
- * Conversación con soporte para inbox:
- * - tipo: 'soporte' | 'directo'
- * - assignedAdminId: admin asignado
- * - estado: 'pendiente' | 'en_curso' | 'cerrada'
- * - creadoPor / creadoEn
- */
+
 export interface ConversacionFS {
   participantesIds: string[];
   ultimoMensaje: string;
@@ -36,7 +30,7 @@ export interface ConversacionFS {
   creadoPor?: string;
   creadoEn?: any;
 
-  // extras opcionales existentes
+  
   esGrupo?: boolean;
   titulo?: string;
 }
@@ -53,7 +47,7 @@ export class ChatService {
   private db  = inject(Firestore);
   private env = inject(EnvironmentInjector); // 👈 agregado
 
-  // ------- Perfiles de usuario en /usuarios --------
+
   async upsertUsuario(user: {
     id: number | string; nombre: string; apellido: string; mail: string; tipoUsuario: number; fotoURL?: string | null;
   }) {
@@ -69,7 +63,7 @@ export class ChatService {
     await setDoc(doc(this.db, `usuarios/${id}`), data, { merge: true });
   }
 
-  // ------- Conversaciones 1 a 1 (id determinístico) -------
+  
   private convId(a: string, b: string) {
     const [x, y] = [a, b].sort();
     return `${x}_${y}`;
@@ -99,7 +93,6 @@ export class ChatService {
     return cid;
   }
 
-  // Stream de conversaciones donde participa el usuario
   listenConversacionesDe(idUsuario: string | number): Observable<(ConversacionFS & { id: string })[]> {
     return runInInjectionContext(this.env, () => {            // 👈 envuelto
       const uid = String(idUsuario);
@@ -114,7 +107,7 @@ export class ChatService {
     });
   }
 
-  // Stream de mensajes (orden por fecha ascendente)
+
   listenMensajesDeConversacion(idConversacion: string): Observable<(MensajeFS & { id: string })[]> {
     return runInInjectionContext(this.env, () => {            // 👈 envuelto
       const col = collection(this.db, `conversaciones/${idConversacion}/mensajes`);
@@ -123,7 +116,7 @@ export class ChatService {
     });
   }
 
-  // Envío de mensaje + actualización de cabecera
+  
   async enviarMensaje(idConversacion: string, remitenteId: string | number, texto: string) {
     const mid = String(remitenteId);
     const msgs = collection(this.db, `conversaciones/${idConversacion}/mensajes`);
@@ -137,9 +130,9 @@ export class ChatService {
     );
   }
 
-  // ================== SOPORTE (inbox) ==================
+  
 
-  /** Variante 1 (REUTILIZA si hay abierta) */
+  
   async crearConversacionSoporte(usuarioId: string): Promise<string> {
     const col = collection(this.db, 'conversaciones');
 
@@ -154,7 +147,7 @@ export class ChatService {
       const exist = await getDocs(qExist);
       if (!exist.empty) return exist.docs[0].id;
     } catch {
-      // Si Firestore pide índices o falla, seguimos y creamos nueva.
+      
     }
 
     const data: ConversacionFS = {
@@ -172,7 +165,7 @@ export class ChatService {
     return ref.id;
   }
 
-  /** Variante 2 (SIEMPRE NUEVA) */
+  
   async crearConversacionSoporteNueva(usuarioId: string): Promise<string> {
     const col = collection(this.db, 'conversaciones');
     const data: ConversacionFS = {
@@ -190,7 +183,7 @@ export class ChatService {
     return ref.id;
   }
 
-  /** Admin: pendientes (sin asignar). */
+  /**  pendientes  */
   listenPendientesParaAdmin(): Observable<(ConversacionFS & {id:string})[]> {
     return runInInjectionContext(this.env, () => {            // 👈 envuelto
       const col = collection(this.db, 'conversaciones');
@@ -205,7 +198,7 @@ export class ChatService {
     });
   }
 
-  /** (Opcional) Cerrar conversación. */
+  /**  Cerrar conversación. */
   async cerrarConversacion(convId: string): Promise<void> {
     const ref = doc(this.db, 'conversaciones', convId);
     await updateDoc(ref, {

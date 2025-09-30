@@ -29,10 +29,10 @@ export class ReportesComponent implements OnInit {
   dolar  = signal<DolarPunto[]>([]);
   top    = signal<TopProducto[]>([]);
 
-  // opciones comunes para todos los charts
+  
   chartOptions: ChartOptions = {
     responsive: true,
-    maintainAspectRatio: false,     // 👈 importante para que respete la altura del contenedor
+    maintainAspectRatio: false,    
     layout: { padding: 12 },
     plugins: {
       legend: { position: 'bottom' },
@@ -52,7 +52,7 @@ export class ReportesComponent implements OnInit {
   dolarChart: ChartConfiguration['data'] = { labels: [], datasets: [{ data: [], label: 'USD (semanal)' }] };
   dolarType: ChartType = 'line';
 
-  // Top productos
+  // productos
   topChart: ChartConfiguration['data'] = { labels: [], datasets: [{ data: [], label: 'Unidades' }] };
   topType: ChartType = 'bar';
 

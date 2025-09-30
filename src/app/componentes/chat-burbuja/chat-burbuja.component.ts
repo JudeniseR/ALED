@@ -11,7 +11,7 @@ import { UsuarioService } from '../../servicios/usuario.service';
   standalone: true,
   imports: [CommonModule, FormsModule],
   template: `
-  <!-- Botón flotante -->
+  <!-- Botón  -->
   <button class="fab" (click)="toggle()">
     💬
     <span class="badge" *ngIf="hasNotif()">●</span>
@@ -29,15 +29,14 @@ import { UsuarioService } from '../../servicios/usuario.service';
 
     <div class="panel-body">
       <aside class="col col-list">
-        <!-- Usuario: crear chat de soporte -->
+        <!-- Usuario:  -->
         <div class="new" *ngIf="miRol==='usuario' && tab()==='convs'">
           <button class="btn-full" (click)="nuevoChatConSoporte()">Nuevo chat con soporte</button>
 
-          <!-- (Opcional) Dejar link para reutilizar si preferís ese flujo -->
-          <!-- <a class="link" (click)="nuevoChatConSoporteReutilizable()">Usar existente si hay</a> -->
+          
         </div>
 
-        <!-- Lista de tus conversaciones -->
+        <!-- Lista conversaciones -->
         <div class="list" *ngIf="tab()==='convs'">
           <div class="item" *ngFor="let c of conversaciones(); trackBy: trackConv" (click)="abrir(c)">
             <div class="title">{{ titulo(c) }}</div>
@@ -46,7 +45,7 @@ import { UsuarioService } from '../../servicios/usuario.service';
           <div class="empty-list" *ngIf="!conversaciones().length">No hay conversaciones</div>
         </div>
 
-        <!-- Admin: lista de pendientes -->
+        <!-- Admin: pendientes -->
         <div class="users" *ngIf="tab()==='pend' && miRol==='admin'">
           <div class="list">
             <div class="item" *ngFor="let c of pendientes(); trackBy: trackConv"
@@ -172,7 +171,7 @@ export class ChatBurbujaComponent {
   ngOnInit() {
     if (!this.miId) return;
 
-    // Tus conversaciones (usuario o admin)
+    // mis conversaciones (usuario o admin)
     this.chat.listenConversacionesDe(this.miId).subscribe(async cs => {
       this.conversaciones.set(cs);
       for (const c of cs) {
@@ -184,7 +183,7 @@ export class ChatBurbujaComponent {
       }
     });
 
-    // Admin: bandeja de pendientes
+    // Admin: bandeja pendientes
     if (this.miRol === 'admin') {
       this.chat.listenPendientesParaAdmin().subscribe(cs => this.pendientes.set(cs));
     }
@@ -213,17 +212,15 @@ export class ChatBurbujaComponent {
   }
 
   // ===== Usuario =====
-  // Por defecto: SIEMPRE nueva
+  
   async nuevoChatConSoporte(){
     if (!this.miId) return;
     const id = await this.chat.crearConversacionSoporteNueva(this.miId);
-    // (Si preferís reutilizar, cambiá la línea de arriba por:)
-    // const id = await this.chat.crearConversacionSoporte(this.miId);
     this.tab.set('convs');
     this.abrir({ id });
   }
 
-  // (Opcional) botón/link para la variante reutilizable
+  
   async nuevoChatConSoporteReutilizable(){
     if (!this.miId) return;
     const id = await this.chat.crearConversacionSoporte(this.miId);
@@ -231,8 +228,8 @@ export class ChatBurbujaComponent {
     this.abrir({ id });
   }
 
-  // ===== Admin =====
-  // Toma la pendiente y la abre; update optimista a tu lista
+  //  Admin 
+  
   async abrirTomando(c: (ConversacionFS & {id:string})) {
     if (this.miRol === 'admin') {
       await this.chat.tomarConversacion(c.id, this.miId);
@@ -255,14 +252,14 @@ export class ChatBurbujaComponent {
     this.scrollToBottom();
   }
 
-  // (Opcional) Cerrar conversación
+  //Cerrar conversación
   async cerrar(){
     if (!this.cid()) return;
     await this.chat.cerrarConversacion(this.cid()!);
     this.cid.set(null);
   }
 
-  // utils
+  
   trackConv = (_: number, c: any) => c.id;
   trackMsg  = (_: number, m: any) => m.id ?? m.ts ?? Math.random();
 

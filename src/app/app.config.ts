@@ -14,8 +14,6 @@ import { firebaseConfig } from './firebase';
 
 // Charts
 import { provideCharts, withDefaultRegisterables } from 'ng2-charts';
-
-// (Solo si usás Angular Material)
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 
 export const appConfig: ApplicationConfig = {
@@ -31,8 +29,6 @@ export const appConfig: ApplicationConfig = {
 
     // Charts.js + ng2-charts
     provideCharts(withDefaultRegisterables()),
-
-    // (Opcional) Animaciones Angular Material
   
     provideAnimationsAsync(),
   ],
